@@ -19,15 +19,20 @@ int _printf(const char *format, ...)
             _putchar(*format);
             continue;
         }
-        if (*++format == 's')
+        switch (*++format)
         {
+        case 's':
             _print_string(va_arg(myList, char *));
-        } else if (*format == 'c')
-        {
+            break;
+        case 'c':
             _putchar(va_arg(myList, int));
-        } else 
-        {
+            break;
+        case 'd':
+            _print_integer(va_arg(myList, int));
+            break;
+        default:
             _putchar(*--format);
+            break;
         }
     }
     va_end(myList);
