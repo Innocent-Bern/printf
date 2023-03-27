@@ -7,29 +7,27 @@
 * Return: int value
 */
 
-
 int _printf(const char *format, ...)
 {
     va_list myList;
-    char *fmtpt;
 
     va_start(myList, format);
-    for (fmtpt = format; *fmtpt; fmtpt++)
+    for (; *format; format++)
     {
-        if (*fmtpt != '%')
+        if (*format != '%')
         {
-            _putchar(*fmtpt);
+            _putchar(*format);
             continue;
         }
-        if (*++fmtpt == 's')
+        if (*++format == 's')
         {
             _print_string(va_arg(myList, char *));
-        } else if (*fmtpt == 'c')
+        } else if (*format == 'c')
         {
             _putchar(va_arg(myList, int));
         } else 
         {
-            _putchar(*--fmtpt);
+            _putchar(*--format);
         }
     }
     va_end(myList);
