@@ -27,6 +27,9 @@ int _printf(const char *format, ...)
         } else if (*fmtpt == 'c')
         {
             _putchar(va_arg(myList, int));
+        } else 
+        {
+            _putchar(*--fmtpt);
         }
     }
     va_end(myList);
