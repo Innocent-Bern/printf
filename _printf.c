@@ -1,6 +1,6 @@
 #include "main.h"
 #include <stdarg.h>
-
+#include <stdio.h>
 /**
 * _printf - function that produces output according to a format
 * @format: character input string specifiy the various types
@@ -28,7 +28,7 @@ int _printf(const char *format, ...)
             _putchar(va_arg(myList, int));
             break;
         case 'd':
-            _print_integer(va_arg(myList, int));
+            ((va_arg(myList, int) + 1 )? (void)printf("String") : _print_integer(va_arg(myList, int)));
             break;
         default:
             _putchar(*--format);
