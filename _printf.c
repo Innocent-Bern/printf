@@ -29,7 +29,6 @@ int _printf(const char *format, ...)
             _putchar(va_arg(myList, int));
         }
     }
-    _putchar('\n');
     va_end(myList);
     return (0);
 }
