@@ -1,6 +1,6 @@
 #include "main.h"
 #include <stdarg.h>
-
+#include <stdio.h>
 /**
 * _printf - function that produces output according to a format
 * @format: character input string specifiy the various types
@@ -10,31 +10,45 @@
 int _printf(const char *format, ...)
 {
     va_list myList;
-
+    char buff[100]= {0}, tmp[20];
+    int j = 0, i = 0;
+    char *str_arg;
+    int ival;
     va_start(myList, format);
-    for (; *format; format++)
+    for (i = 0; *(format + i); i++)
     {
-        if (*format != '%')
+        if (*(format + i) != '%')
         {
-            _putchar(*format);
-            continue;
-        }
-        switch (*++format)
+            buff[j] = *(format + i);
+            j++;
+        } else 
+        {
+            i++;
+        switch (*(format + i))
         {
         case 's':
-            _print_string(va_arg(myList, char *));
-            break;
+        str_arg = va_arg(myList, char *);
+        _str_copy(&buff[j], str_arg);
+        j += _str_len(str_arg);
+        break;
         case 'c':
-            _putchar(va_arg(myList, int));
-            break;
+        buff[j] = (char)va_arg(myList, int);
+        j++;
+        break;
         case 'd':
-            _print_integer(va_arg(myList, int));
-            break;
+        ival = va_arg(myList, int);
+        _itoa(ival, tmp, 10);
+        _str_copy(&buff[j], tmp);
+        j += _str_len(tmp);
+        break;
         default:
-            _putchar(*--format);
+            buff[j] = *(format + i);
+            j++;
             break;
         }
+        }
     }
+    fwrite(buff, j, 1, stdout);
     va_end(myList);
     return (0);
 }
