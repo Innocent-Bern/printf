@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 2018
+#define MAX 2048
+
 /**
 * _printf - function that produces output according to a format
 * @format: character input string specifiy the various types
@@ -13,48 +14,38 @@
 int _printf(const char *format, ...)
 {
     va_list myList;
-    char *buff, tmp[20];
-    int j = 0, i = 0, ival;
-    char *str_arg;
+    char *str_arg, *int_out;
+    int ival;
 
-    buff = malloc(sizeof(char *) * MAX);
-
+    int_out = malloc(sizeof(char *) * MAX);
     va_start(myList, format);
-    for (i = 0; *(format + i); i++)
+    for (; *format; format++)
     {
-        if (*(format + i) != '%')
+        if (*format != '%')
         {
-            buff[j] = *(format + i);
-            j++;
+            _putchar(*format);
         } else 
         {
-            i++;
-        switch (*(format + i))
+        switch (*++format)
         {
         case 's':
-        str_arg = va_arg(myList, char *);
-        _str_copy(&buff[j], str_arg);
-        j += _str_len(str_arg);
+            str_arg = va_arg(myList, char *);
+            _print_string(str_arg);
         break;
         case 'c':
-        buff[j] = (char)va_arg(myList, int);
-        j++;
+            _putchar((char)va_arg(myList, int));
         break;
         case 'd':
         ival = va_arg(myList, int);
-        _itoa(ival, tmp, 10);
-        _str_copy(&buff[j], tmp);
-        j += _str_len(tmp);
+        _itoa(ival, int_out, 10);
+        _print_string(int_out);
         break;
         default:
-            buff[j] = *(format + i);
-            j++;
-            break;
+        _putchar(*format);
+        break;
         }
         }
     }
-    fwrite(buff, j, 1, stdout);
     va_end(myList);
-    free(buff);
     return (0);
 }
