@@ -1,6 +1,9 @@
 #include "main.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 2018
 /**
 * _printf - function that produces output according to a format
 * @format: character input string specifiy the various types
@@ -10,10 +13,12 @@
 int _printf(const char *format, ...)
 {
     va_list myList;
-    char buff[100]= {0}, tmp[20];
-    int j = 0, i = 0;
+    char *buff, tmp[20];
+    int j = 0, i = 0, ival;
     char *str_arg;
-    int ival;
+
+    buff = malloc(sizeof(char *) * MAX);
+
     va_start(myList, format);
     for (i = 0; *(format + i); i++)
     {
@@ -50,5 +55,6 @@ int _printf(const char *format, ...)
     }
     fwrite(buff, j, 1, stdout);
     va_end(myList);
+    free(buff);
     return (0);
 }
