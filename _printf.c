@@ -20,7 +20,6 @@ int _printf(const char *format, ...)
     {
         if (*format != '%')
         {
-            /*_putchar(*format);*/
 			count += write(1, format, 1);
         } else 
         {
@@ -32,7 +31,6 @@ int _printf(const char *format, ...)
         break;
         case 'c':
 			c = (char)va_arg(myList, int);
-            _putchar(c);
 			count += write(1, &c, 1);
         break;
         case 'd':
@@ -48,7 +46,8 @@ int _printf(const char *format, ...)
         count += write(1, &c, 1);
         break;
         default:
-		count += write(1, --format, 1);
+        count += write(1, --format, 1);
+		    count += write(1, ++format, 1);
         break;
         }
         }
