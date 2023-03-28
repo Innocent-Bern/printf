@@ -2,9 +2,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#define MAX 2048
-
+#include <unistd.h>
 /**
 * _printf - function that produces output according to a format
 * @format: character input string specifiy the various types
@@ -14,38 +12,43 @@
 int _printf(const char *format, ...)
 {
     va_list myList;
-    char *str_arg, *int_out;
-    int ival;
+    char *str_arg, c;
+    int ival, count = 0;
 
-    int_out = malloc(sizeof(char *) * MAX);
     va_start(myList, format);
     for (; *format; format++)
     {
         if (*format != '%')
         {
-            _putchar(*format);
+            /*_putchar(*format);*/
+			count += write(1, format, 1);
         } else 
         {
         switch (*++format)
         {
         case 's':
             str_arg = va_arg(myList, char *);
-            _print_string(str_arg);
+			count += write(1, str_arg, _str_len(str_arg));
         break;
         case 'c':
-            _putchar((char)va_arg(myList, int));
+			c = (char)va_arg(myList, int);
+            _putchar(c);
+			count += write(1, &c, 1);
         break;
         case 'd':
-        ival = va_arg(myList, int);
-        _itoa(ival, int_out, 10);
-        _print_string(int_out);
+		ival = va_arg(myList, int);
+		count += write(1, _print_integer(ival), _str_len(_print_integer(ival)));
+        break;
+        case 'i':
+		ival = va_arg(myList, int);
+		count += write(1, _print_integer(ival), _str_len(_print_integer(ival)));
         break;
         default:
-        _putchar(*format);
+		count += write(1, format, 1);
         break;
         }
         }
     }
     va_end(myList);
-    return (0);
+    return (count);
 }
