@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define MAX_INT 2147483647
 /**
  * _putchar - writes the character c to stdout
  * @c: The character to print
@@ -23,15 +24,21 @@ void _print_string(char *s)
     }
 }
 
-void * _print_integer(int n)
+void * _print_integer(int n, int base)
 {
     char *s;
-    int len = 0, num, i;
+    int len = 0, num, i, sign = 0;
     num = n;
+    if (n < 0)
+    {
+        sign = 1;
+        num *= -1;
+        n *= -1;
+    }
     while (n != 0)
     {
         len++;
-        n /= 10;
+        n /= base;
     }
 
     s = malloc(sizeof(char) * len + 1);
@@ -39,52 +46,14 @@ void * _print_integer(int n)
     for (i = 1; i <= len; i++)
     {
         *(s + len - i) = num % 10 + '0';
-        num /= 10;
-    }
-    return(s);
-}
-
-char * _string_reverse(char * str)
-{
-    int i, len = 0;
-    char c;
-
-    len = _str_len(str);
-
-    for (i = 0; i < (len / 2); i++)
-    {
-        c = str[i];
-        str[i] = str[len - i - 1];
-        str[len - i -1 ] = c;
-    }
-    return (str);
-}
-
-char * _int_to_string(int i, char *strout, int base)
-{
-    char *str = strout;
-    int digit, sign = 0;
-
-    if (i < 0)
-    {
-        sign = 1;
-        i *= -1;
-    }
-
-    while (i)
-    {
-        digit = i % base;
-        *str = (digit > 9) ? ('A' + digit - 10) : digit + '0';
-        i = i / base;
-        str++;
+        num /= base;
     }
     if (sign)
     {
-        *str++ = '-';
+        *--s = '-';
     }
-    *str = '\0';
-    _string_reverse(strout);
-    return (strout);
+    *(s + len + 1) ='\0';
+    return(s);
 }
 
 int _isdigit(int c)
