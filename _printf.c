@@ -48,7 +48,7 @@ int _printf(const char *format, ...)
         break;
         default:
         count += write(1, --format, 1);
-		count += write(1, ++format, 1);
+		    count += write(1, ++format, 1);
         break;
         }
         }
