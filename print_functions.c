@@ -44,6 +44,49 @@ void * _print_integer(int n)
     return(s);
 }
 
+char * _string_reverse(char * str)
+{
+    int i, len = 0;
+    char c;
+
+    len = _str_len(str);
+
+    for (i = 0; i < (len / 2); i++)
+    {
+        c = str[i];
+        str[i] = str[len - i - 1];
+        str[len - i -1 ] = c;
+    }
+    return (str);
+}
+
+char * _int_to_string(int i, char *strout, int base)
+{
+    char *str = strout;
+    int digit, sign = 0;
+
+    if (i < 0)
+    {
+        sign = 1;
+        i *= -1;
+    }
+
+    while (i)
+    {
+        digit = i % base;
+        *str = (digit > 9) ? ('A' + digit - 10) : digit + '0';
+        i = i / base;
+        str++;
+    }
+    if (sign)
+    {
+        *str++ = '-';
+    }
+    *str = '\0';
+    _string_reverse(strout);
+    return (strout);
+}
+
 int _isdigit(int c)
 {
 	if (c >= '0' && c <= '9')

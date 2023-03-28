@@ -12,7 +12,7 @@
 int _printf(const char *format, ...)
 {
     va_list myList;
-    char *str_arg, c;
+    char *str_arg, *str_out, c;
     int ival, count = 0;
 
     va_start(myList, format);
@@ -35,11 +35,12 @@ int _printf(const char *format, ...)
         break;
         case 'd':
 		ival = va_arg(myList, int);
-		count += write(1, _print_integer(ival), _str_len(_print_integer(ival)));
+        str_out = _int_to_string(ival, str_out, 10);
+		count += write(1, str_out, _str_len(str_out));
         break;
         case 'i':
 		ival = va_arg(myList, int);
-		count += write(1, _print_integer(ival), _str_len(_print_integer(ival)));
+		count += write(1, _int_to_string(ival, str_out, 10), _str_len(_int_to_string(ival, str_out, 10)));
         break;
         case '%':
         c = '%';
